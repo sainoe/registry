@@ -3,6 +3,7 @@ package sainoe.registry.registry;
 
 import "gogoproto/gogo.proto";
 import "registry/params.proto";
+import "registry/consumer.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/sainoe/registry/x/registry/types";
@@ -10,5 +11,6 @@ option go_package = "github.com/sainoe/registry/x/registry/types";
 // GenesisState defines the registry module's genesis state.
 message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
+  repeated Consumer consumerList = 2 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

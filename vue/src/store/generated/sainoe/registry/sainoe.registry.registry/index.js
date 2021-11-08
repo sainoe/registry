@@ -1,8 +1,9 @@
 import { txClient, queryClient, MissingWalletError, registry } from './module';
 // @ts-ignore
 import { SpVuexError } from '@starport/vuex';
+import { Consumer } from "./module/types/registry/consumer";
 import { Params } from "./module/types/registry/params";
-export { Params };
+export { Consumer, Params };
 async function initTxClient(vuexGetters) {
     return await txClient(vuexGetters['common/wallet/signer'], {
         addr: vuexGetters['common/env/apiTendermint']
@@ -37,7 +38,10 @@ function getStructure(template) {
 const getDefaultState = () => {
     return {
         Params: {},
+        Consumer: {},
+        ConsumerAll: {},
         _Structure: {
+            Consumer: getStructure(Consumer.fromPartial({})),
             Params: getStructure(Params.fromPartial({})),
         },
         _Registry: registry,
@@ -69,6 +73,18 @@ export default {
                 params.query = null;
             }
             return state.Params[JSON.stringify(params)] ?? {};
+        },
+        getConsumer: (state) => (params = { params: {} }) => {
+            if (!params.query) {
+                params.query = null;
+            }
+            return state.Consumer[JSON.stringify(params)] ?? {};
+        },
+        getConsumerAll: (state) => (params = { params: {} }) => {
+            if (!params.query) {
+                params.query = null;
+            }
+            return state.ConsumerAll[JSON.stringify(params)] ?? {};
         },
         getTypeStructure: (state) => (type) => {
             return state._Structure[type].fields;
@@ -115,6 +131,38 @@ export default {
             }
             catch (e) {
                 throw new SpVuexError('QueryClient:QueryParams', 'API Node Unavailable. Could not perform query: ' + e.message);
+            }
+        },
+        async QueryConsumer({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
+            try {
+                const key = params ?? {};
+                const queryClient = await initQueryClient(rootGetters);
+                let value = (await queryClient.queryConsumer(key.index)).data;
+                commit('QUERY', { query: 'Consumer', key: { params: { ...key }, query }, value });
+                if (subscribe)
+                    commit('SUBSCRIBE', { action: 'QueryConsumer', payload: { options: { all }, params: { ...key }, query } });
+                return getters['getConsumer']({ params: { ...key }, query }) ?? {};
+            }
+            catch (e) {
+                throw new SpVuexError('QueryClient:QueryConsumer', 'API Node Unavailable. Could not perform query: ' + e.message);
+            }
+        },
+        async QueryConsumerAll({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
+            try {
+                const key = params ?? {};
+                const queryClient = await initQueryClient(rootGetters);
+                let value = (await queryClient.queryConsumerAll(query)).data;
+                while (all && value.pagination && value.pagination.next_key != null) {
+                    let next_values = (await queryClient.queryConsumerAll({ ...query, 'pagination.key': value.pagination.next_key })).data;
+                    value = mergeResults(value, next_values);
+                }
+                commit('QUERY', { query: 'ConsumerAll', key: { params: { ...key }, query }, value });
+                if (subscribe)
+                    commit('SUBSCRIBE', { action: 'QueryConsumerAll', payload: { options: { all }, params: { ...key }, query } });
+                return getters['getConsumerAll']({ params: { ...key }, query }) ?? {};
+            }
+            catch (e) {
+                throw new SpVuexError('QueryClient:QueryConsumerAll', 'API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
         async sendMsgRegisterConsumer({ rootGetters }, { value, fee = [], memo = '' }) {

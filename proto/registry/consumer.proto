@@ -1,0 +1,12 @@
+syntax = "proto3";
+package sainoe.registry.registry;
+
+option go_package = "github.com/sainoe/registry/x/registry/types";
+
+message Consumer {
+  string index = 1; 
+  string chainID = 2; 
+  string validators = 3; 
+  
+}
+

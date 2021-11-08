@@ -130,12 +130,41 @@ export class HttpClient {
     }
 }
 /**
- * @title registry/genesis.proto
+ * @title registry/consumer.proto
  * @version version not set
  */
 export class Api extends HttpClient {
     constructor() {
         super(...arguments);
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryConsumerAll
+         * @summary Queries a list of consumer items.
+         * @request GET:/sainoe/registry/registry/consumer
+         */
+        this.queryConsumerAll = (query, params = {}) => this.request({
+            path: `/sainoe/registry/registry/consumer`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryConsumer
+         * @summary Queries a consumer by index.
+         * @request GET:/sainoe/registry/registry/consumer/{index}
+         */
+        this.queryConsumer = (index, params = {}) => this.request({
+            path: `/sainoe/registry/registry/consumer/${index}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
         /**
          * No description
          *

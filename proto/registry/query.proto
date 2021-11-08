@@ -5,6 +5,7 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "registry/params.proto";
+import "registry/consumer.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/sainoe/registry/x/registry/types";
@@ -15,7 +16,17 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/sainoe/registry/registry/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a consumer by index.
+	rpc Consumer(QueryGetConsumerRequest) returns (QueryGetConsumerResponse) {
+		option (google.api.http).get = "/sainoe/registry/registry/consumer/{index}";
+	}
+
+	// Queries a list of consumer items.
+	rpc ConsumerAll(QueryAllConsumerRequest) returns (QueryAllConsumerResponse) {
+		option (google.api.http).get = "/sainoe/registry/registry/consumer";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +36,24 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetConsumerRequest {
+	  string index = 1;
+
+}
+
+message QueryGetConsumerResponse {
+	Consumer consumer = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllConsumerRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllConsumerResponse {
+	repeated Consumer consumer = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

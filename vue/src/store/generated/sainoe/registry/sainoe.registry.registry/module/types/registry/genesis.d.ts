@@ -1,10 +1,12 @@
 import { Params } from '../registry/params';
+import { Consumer } from '../registry/consumer';
 import { Writer, Reader } from 'protobufjs/minimal';
 export declare const protobufPackage = "sainoe.registry.registry";
 /** GenesisState defines the registry module's genesis state. */
 export interface GenesisState {
-    /** this line is used by starport scaffolding # genesis/proto/state */
     params: Params | undefined;
+    /** this line is used by starport scaffolding # genesis/proto/state */
+    consumerList: Consumer[];
 }
 export declare const GenesisState: {
     encode(message: GenesisState, writer?: Writer): Writer;
