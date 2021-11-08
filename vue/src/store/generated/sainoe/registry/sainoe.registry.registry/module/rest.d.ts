@@ -4,6 +4,7 @@ export interface ProtobufAny {
 export interface RegistryConsumer {
     index?: string;
     chainID?: string;
+    creator?: string;
     validators?: string[];
 }
 export declare type RegistryMsgRegisterConsumerResponse = object;

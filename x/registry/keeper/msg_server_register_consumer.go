@@ -10,8 +10,14 @@ import (
 func (k msgServer) RegisterConsumer(goCtx context.Context, msg *types.MsgRegisterConsumer) (*types.MsgRegisterConsumerResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Handling the message
-	_ = ctx
+	// Store the consumer to the registry store
+	newConsumer := types.Consumer{
+		Index:   msg.ChainID,
+		ChainID: msg.ChainID,
+		Creator: msg.Creator,
+	}
+
+	k.SetConsumer(ctx, newConsumer)
 
 	return &types.MsgRegisterConsumerResponse{}, nil
 }

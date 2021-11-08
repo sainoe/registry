@@ -12520,6 +12520,8 @@ paths:
                       type: string
                     chainID:
                       type: string
+                    creator:
+                      type: string
                     validators:
                       type: array
                       items:
@@ -12641,6 +12643,8 @@ paths:
                   index:
                     type: string
                   chainID:
+                    type: string
+                  creator:
                     type: string
                   validators:
                     type: array
@@ -20028,6 +20032,8 @@ definitions:
         type: string
       chainID:
         type: string
+      creator:
+        type: string
       validators:
         type: array
         items:
@@ -20048,6 +20054,8 @@ definitions:
             index:
               type: string
             chainID:
+              type: string
+            creator:
               type: string
             validators:
               type: array
@@ -20087,6 +20095,8 @@ definitions:
           index:
             type: string
           chainID:
+            type: string
+          creator:
             type: string
           validators:
             type: array

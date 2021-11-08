@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Writer, Reader } from 'protobufjs/minimal';
 export const protobufPackage = 'sainoe.registry.registry';
-const baseConsumer = { index: '', chainID: '', validators: '' };
+const baseConsumer = { index: '', chainID: '', creator: '', validators: '' };
 export const Consumer = {
     encode(message, writer = Writer.create()) {
         if (message.index !== '') {
@@ -10,8 +10,11 @@ export const Consumer = {
         if (message.chainID !== '') {
             writer.uint32(18).string(message.chainID);
         }
+        if (message.creator !== '') {
+            writer.uint32(26).string(message.creator);
+        }
         for (const v of message.validators) {
-            writer.uint32(26).string(v);
+            writer.uint32(34).string(v);
         }
         return writer;
     },
@@ -30,6 +33,9 @@ export const Consumer = {
                     message.chainID = reader.string();
                     break;
                 case 3:
+                    message.creator = reader.string();
+                    break;
+                case 4:
                     message.validators.push(reader.string());
                     break;
                 default:
@@ -54,6 +60,12 @@ export const Consumer = {
         else {
             message.chainID = '';
         }
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = '';
+        }
         if (object.validators !== undefined && object.validators !== null) {
             for (const e of object.validators) {
                 message.validators.push(String(e));
@@ -65,6 +77,7 @@ export const Consumer = {
         const obj = {};
         message.index !== undefined && (obj.index = message.index);
         message.chainID !== undefined && (obj.chainID = message.chainID);
+        message.creator !== undefined && (obj.creator = message.creator);
         if (message.validators) {
             obj.validators = message.validators.map((e) => e);
         }
@@ -87,6 +100,12 @@ export const Consumer = {
         }
         else {
             message.chainID = '';
+        }
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = '';
         }
         if (object.validators !== undefined && object.validators !== null) {
             for (const e of object.validators) {

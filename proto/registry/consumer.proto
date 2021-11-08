@@ -5,7 +5,8 @@ option go_package = "github.com/sainoe/registry/x/registry/types";
 
 message Consumer {
   string index = 1; 
-  string chainID = 2; 
-  repeated string validators = 3; 
+  string chainID = 2;
+  string creator = 3; 
+  repeated string validators = 4;
 }
 
