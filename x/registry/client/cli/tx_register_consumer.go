@@ -16,10 +16,9 @@ func CmdRegisterConsumer() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "register-consumer [chain-id] [validators]",
 		Short: "Broadcast message RegisterConsumer",
-		Args:  cobra.ExactArgs(2),
+		Args:  cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argChainID := args[0]
-			argValidators := args[1]
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -29,7 +28,6 @@ func CmdRegisterConsumer() *cobra.Command {
 			msg := types.NewMsgRegisterConsumer(
 				clientCtx.GetFromAddress().String(),
 				argChainID,
-				argValidators,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

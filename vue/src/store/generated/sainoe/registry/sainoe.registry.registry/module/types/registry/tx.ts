@@ -6,12 +6,11 @@ export const protobufPackage = 'sainoe.registry.registry'
 export interface MsgRegisterConsumer {
   creator: string
   chainID: string
-  validators: string
 }
 
 export interface MsgRegisterConsumerResponse {}
 
-const baseMsgRegisterConsumer: object = { creator: '', chainID: '', validators: '' }
+const baseMsgRegisterConsumer: object = { creator: '', chainID: '' }
 
 export const MsgRegisterConsumer = {
   encode(message: MsgRegisterConsumer, writer: Writer = Writer.create()): Writer {
@@ -20,9 +19,6 @@ export const MsgRegisterConsumer = {
     }
     if (message.chainID !== '') {
       writer.uint32(18).string(message.chainID)
-    }
-    if (message.validators !== '') {
-      writer.uint32(26).string(message.validators)
     }
     return writer
   },
@@ -39,9 +35,6 @@ export const MsgRegisterConsumer = {
           break
         case 2:
           message.chainID = reader.string()
-          break
-        case 3:
-          message.validators = reader.string()
           break
         default:
           reader.skipType(tag & 7)
@@ -63,11 +56,6 @@ export const MsgRegisterConsumer = {
     } else {
       message.chainID = ''
     }
-    if (object.validators !== undefined && object.validators !== null) {
-      message.validators = String(object.validators)
-    } else {
-      message.validators = ''
-    }
     return message
   },
 
@@ -75,7 +63,6 @@ export const MsgRegisterConsumer = {
     const obj: any = {}
     message.creator !== undefined && (obj.creator = message.creator)
     message.chainID !== undefined && (obj.chainID = message.chainID)
-    message.validators !== undefined && (obj.validators = message.validators)
     return obj
   },
 
@@ -90,11 +77,6 @@ export const MsgRegisterConsumer = {
       message.chainID = object.chainID
     } else {
       message.chainID = ''
-    }
-    if (object.validators !== undefined && object.validators !== null) {
-      message.validators = object.validators
-    } else {
-      message.validators = ''
     }
     return message
   }

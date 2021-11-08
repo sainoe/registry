@@ -14,7 +14,6 @@ service Msg {
 message MsgRegisterConsumer {
   string creator = 1;
   string chainID = 2;
-  string validators = 3;
 }
 
 message MsgRegisterConsumerResponse {

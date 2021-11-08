@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Reader, Writer } from 'protobufjs/minimal';
 export const protobufPackage = 'sainoe.registry.registry';
-const baseMsgRegisterConsumer = { creator: '', chainID: '', validators: '' };
+const baseMsgRegisterConsumer = { creator: '', chainID: '' };
 export const MsgRegisterConsumer = {
     encode(message, writer = Writer.create()) {
         if (message.creator !== '') {
@@ -9,9 +9,6 @@ export const MsgRegisterConsumer = {
         }
         if (message.chainID !== '') {
             writer.uint32(18).string(message.chainID);
-        }
-        if (message.validators !== '') {
-            writer.uint32(26).string(message.validators);
         }
         return writer;
     },
@@ -27,9 +24,6 @@ export const MsgRegisterConsumer = {
                     break;
                 case 2:
                     message.chainID = reader.string();
-                    break;
-                case 3:
-                    message.validators = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -52,19 +46,12 @@ export const MsgRegisterConsumer = {
         else {
             message.chainID = '';
         }
-        if (object.validators !== undefined && object.validators !== null) {
-            message.validators = String(object.validators);
-        }
-        else {
-            message.validators = '';
-        }
         return message;
     },
     toJSON(message) {
         const obj = {};
         message.creator !== undefined && (obj.creator = message.creator);
         message.chainID !== undefined && (obj.chainID = message.chainID);
-        message.validators !== undefined && (obj.validators = message.validators);
         return obj;
     },
     fromPartial(object) {
@@ -80,12 +67,6 @@ export const MsgRegisterConsumer = {
         }
         else {
             message.chainID = '';
-        }
-        if (object.validators !== undefined && object.validators !== null) {
-            message.validators = object.validators;
-        }
-        else {
-            message.validators = '';
         }
         return message;
     }

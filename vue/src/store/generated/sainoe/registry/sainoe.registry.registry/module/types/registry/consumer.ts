@@ -6,7 +6,7 @@ export const protobufPackage = 'sainoe.registry.registry'
 export interface Consumer {
   index: string
   chainID: string
-  validators: string
+  validators: string[]
 }
 
 const baseConsumer: object = { index: '', chainID: '', validators: '' }
@@ -19,8 +19,8 @@ export const Consumer = {
     if (message.chainID !== '') {
       writer.uint32(18).string(message.chainID)
     }
-    if (message.validators !== '') {
-      writer.uint32(26).string(message.validators)
+    for (const v of message.validators) {
+      writer.uint32(26).string(v!)
     }
     return writer
   },
@@ -29,6 +29,7 @@ export const Consumer = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input
     let end = length === undefined ? reader.len : reader.pos + length
     const message = { ...baseConsumer } as Consumer
+    message.validators = []
     while (reader.pos < end) {
       const tag = reader.uint32()
       switch (tag >>> 3) {
@@ -39,7 +40,7 @@ export const Consumer = {
           message.chainID = reader.string()
           break
         case 3:
-          message.validators = reader.string()
+          message.validators.push(reader.string())
           break
         default:
           reader.skipType(tag & 7)
@@ -51,6 +52,7 @@ export const Consumer = {
 
   fromJSON(object: any): Consumer {
     const message = { ...baseConsumer } as Consumer
+    message.validators = []
     if (object.index !== undefined && object.index !== null) {
       message.index = String(object.index)
     } else {
@@ -62,9 +64,9 @@ export const Consumer = {
       message.chainID = ''
     }
     if (object.validators !== undefined && object.validators !== null) {
-      message.validators = String(object.validators)
-    } else {
-      message.validators = ''
+      for (const e of object.validators) {
+        message.validators.push(String(e))
+      }
     }
     return message
   },
@@ -73,12 +75,17 @@ export const Consumer = {
     const obj: any = {}
     message.index !== undefined && (obj.index = message.index)
     message.chainID !== undefined && (obj.chainID = message.chainID)
-    message.validators !== undefined && (obj.validators = message.validators)
+    if (message.validators) {
+      obj.validators = message.validators.map((e) => e)
+    } else {
+      obj.validators = []
+    }
     return obj
   },
 
   fromPartial(object: DeepPartial<Consumer>): Consumer {
     const message = { ...baseConsumer } as Consumer
+    message.validators = []
     if (object.index !== undefined && object.index !== null) {
       message.index = object.index
     } else {
@@ -90,9 +97,9 @@ export const Consumer = {
       message.chainID = ''
     }
     if (object.validators !== undefined && object.validators !== null) {
-      message.validators = object.validators
-    } else {
-      message.validators = ''
+      for (const e of object.validators) {
+        message.validators.push(e)
+      }
     }
     return message
   }

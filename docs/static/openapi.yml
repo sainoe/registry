@@ -12521,7 +12521,9 @@ paths:
                     chainID:
                       type: string
                     validators:
-                      type: string
+                      type: array
+                      items:
+                        type: string
               pagination:
                 type: object
                 properties:
@@ -12641,7 +12643,9 @@ paths:
                   chainID:
                     type: string
                   validators:
-                    type: string
+                    type: array
+                    items:
+                      type: string
         default:
           description: An unexpected error response.
           schema:
@@ -20025,7 +20029,9 @@ definitions:
       chainID:
         type: string
       validators:
-        type: string
+        type: array
+        items:
+          type: string
   sainoe.registry.registry.MsgRegisterConsumerResponse:
     type: object
   sainoe.registry.registry.Params:
@@ -20044,7 +20050,9 @@ definitions:
             chainID:
               type: string
             validators:
-              type: string
+              type: array
+              items:
+                type: string
       pagination:
         type: object
         properties:
@@ -20081,7 +20089,9 @@ definitions:
           chainID:
             type: string
           validators:
-            type: string
+            type: array
+            items:
+              type: string
   sainoe.registry.registry.QueryParamsResponse:
     type: object
     properties:

@@ -3,7 +3,6 @@ export declare const protobufPackage = "sainoe.registry.registry";
 export interface MsgRegisterConsumer {
     creator: string;
     chainID: string;
-    validators: string;
 }
 export interface MsgRegisterConsumerResponse {
 }

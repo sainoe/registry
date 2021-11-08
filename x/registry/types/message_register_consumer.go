@@ -9,11 +9,10 @@ const TypeMsgRegisterConsumer = "register_consumer"
 
 var _ sdk.Msg = &MsgRegisterConsumer{}
 
-func NewMsgRegisterConsumer(creator string, chainID string, validators string) *MsgRegisterConsumer {
+func NewMsgRegisterConsumer(creator string, chainID string) *MsgRegisterConsumer {
 	return &MsgRegisterConsumer{
-		Creator:    creator,
-		ChainID:    chainID,
-		Validators: validators,
+		Creator: creator,
+		ChainID: chainID,
 	}
 }
 
