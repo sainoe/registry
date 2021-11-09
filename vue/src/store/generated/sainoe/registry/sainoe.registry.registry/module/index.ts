@@ -4,15 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgRegisterConsumer } from "./types/registry/tx";
-import { MsgSubscribeValidator } from "./types/registry/tx";
 import { MsgUnsubscribeValidator } from "./types/registry/tx";
+import { MsgSubscribeValidator } from "./types/registry/tx";
+import { MsgRegisterConsumer } from "./types/registry/tx";
 
 
 const types = [
-  ["/sainoe.registry.registry.MsgRegisterConsumer", MsgRegisterConsumer],
-  ["/sainoe.registry.registry.MsgSubscribeValidator", MsgSubscribeValidator],
   ["/sainoe.registry.registry.MsgUnsubscribeValidator", MsgUnsubscribeValidator],
+  ["/sainoe.registry.registry.MsgSubscribeValidator", MsgSubscribeValidator],
+  ["/sainoe.registry.registry.MsgRegisterConsumer", MsgRegisterConsumer],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -45,9 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgRegisterConsumer: (data: MsgRegisterConsumer): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgRegisterConsumer", value: MsgRegisterConsumer.fromPartial( data ) }),
-    msgSubscribeValidator: (data: MsgSubscribeValidator): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgSubscribeValidator", value: MsgSubscribeValidator.fromPartial( data ) }),
     msgUnsubscribeValidator: (data: MsgUnsubscribeValidator): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgUnsubscribeValidator", value: MsgUnsubscribeValidator.fromPartial( data ) }),
+    msgSubscribeValidator: (data: MsgSubscribeValidator): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgSubscribeValidator", value: MsgSubscribeValidator.fromPartial( data ) }),
+    msgRegisterConsumer: (data: MsgRegisterConsumer): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgRegisterConsumer", value: MsgRegisterConsumer.fromPartial( data ) }),
     
   };
 };

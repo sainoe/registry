@@ -28,7 +28,7 @@ func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, va
 
 	// Check if the sender already exists in the validator list
 	if existsInValidators(consumer.Validators, validatorAddress) {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Validator is already subscribed")
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Validator is already subscribed") // Or do nothing if omnipotent
 	}
 
 	// Append the validator address to the consumer entry validator list
