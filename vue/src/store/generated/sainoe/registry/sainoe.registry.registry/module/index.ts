@@ -4,10 +4,12 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
+import { MsgSubscribeValidator } from "./types/registry/tx";
 import { MsgRegisterConsumer } from "./types/registry/tx";
 
 
 const types = [
+  ["/sainoe.registry.registry.MsgSubscribeValidator", MsgSubscribeValidator],
   ["/sainoe.registry.registry.MsgRegisterConsumer", MsgRegisterConsumer],
   
 ];
@@ -41,6 +43,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
+    msgSubscribeValidator: (data: MsgSubscribeValidator): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgSubscribeValidator", value: MsgSubscribeValidator.fromPartial( data ) }),
     msgRegisterConsumer: (data: MsgRegisterConsumer): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgRegisterConsumer", value: MsgRegisterConsumer.fromPartial( data ) }),
     
   };

@@ -12,10 +12,10 @@ import (
 
 var _ = strconv.Itoa(0)
 
-func CmdRegisterConsumer() *cobra.Command {
+func CmdSubscribeValidator() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "register-consumer [chain-id] [validators]",
-		Short: "Broadcast message RegisterConsumer",
+		Use:   "subscribe-validator [address] [chain-id]",
+		Short: "Broadcast message SubscribeValidator",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argChainID := args[0]
@@ -25,7 +25,7 @@ func CmdRegisterConsumer() *cobra.Command {
 				return err
 			}
 
-			msg := types.NewMsgRegisterConsumer(
+			msg := types.NewMsgSubscribeValidator(
 				clientCtx.GetFromAddress().String(),
 				argChainID,
 			)

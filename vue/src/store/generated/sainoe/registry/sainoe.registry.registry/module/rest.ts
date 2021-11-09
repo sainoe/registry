@@ -22,6 +22,8 @@ export interface RegistryConsumer {
 
 export type RegistryMsgRegisterConsumerResponse = object;
 
+export type RegistryMsgSubscribeValidatorResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

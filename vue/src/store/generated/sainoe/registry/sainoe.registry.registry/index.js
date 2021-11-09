@@ -165,6 +165,23 @@ export default {
                 throw new SpVuexError('QueryClient:QueryConsumerAll', 'API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
+        async sendMsgSubscribeValidator({ rootGetters }, { value, fee = [], memo = '' }) {
+            try {
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgSubscribeValidator(value);
+                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e == MissingWalletError) {
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Send', 'Could not broadcast Tx: ' + e.message);
+                }
+            }
+        },
         async sendMsgRegisterConsumer({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
@@ -179,6 +196,21 @@ export default {
                 }
                 else {
                     throw new SpVuexError('TxClient:MsgRegisterConsumer:Send', 'Could not broadcast Tx: ' + e.message);
+                }
+            }
+        },
+        async MsgSubscribeValidator({ rootGetters }, { value }) {
+            try {
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgSubscribeValidator(value);
+                return msg;
+            }
+            catch (e) {
+                if (e == MissingWalletError) {
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Create', 'Could not create message: ' + e.message);
                 }
             }
         },

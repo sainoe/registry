@@ -8,6 +8,7 @@ export interface RegistryConsumer {
     validators?: string[];
 }
 export declare type RegistryMsgRegisterConsumerResponse = object;
+export declare type RegistryMsgSubscribeValidatorResponse = object;
 /**
  * Params defines the parameters for the module.
  */

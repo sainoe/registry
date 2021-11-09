@@ -115,29 +115,122 @@ func (m *MsgRegisterConsumerResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgRegisterConsumerResponse proto.InternalMessageInfo
 
+type MsgSubscribeValidator struct {
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	ChainID string `protobuf:"bytes,2,opt,name=chainID,proto3" json:"chainID,omitempty"`
+}
+
+func (m *MsgSubscribeValidator) Reset()         { *m = MsgSubscribeValidator{} }
+func (m *MsgSubscribeValidator) String() string { return proto.CompactTextString(m) }
+func (*MsgSubscribeValidator) ProtoMessage()    {}
+func (*MsgSubscribeValidator) Descriptor() ([]byte, []int) {
+	return fileDescriptor_33996d822bb1b5d4, []int{2}
+}
+func (m *MsgSubscribeValidator) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgSubscribeValidator) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgSubscribeValidator.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgSubscribeValidator) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSubscribeValidator.Merge(m, src)
+}
+func (m *MsgSubscribeValidator) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgSubscribeValidator) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSubscribeValidator.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgSubscribeValidator proto.InternalMessageInfo
+
+func (m *MsgSubscribeValidator) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgSubscribeValidator) GetChainID() string {
+	if m != nil {
+		return m.ChainID
+	}
+	return ""
+}
+
+type MsgSubscribeValidatorResponse struct {
+}
+
+func (m *MsgSubscribeValidatorResponse) Reset()         { *m = MsgSubscribeValidatorResponse{} }
+func (m *MsgSubscribeValidatorResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgSubscribeValidatorResponse) ProtoMessage()    {}
+func (*MsgSubscribeValidatorResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_33996d822bb1b5d4, []int{3}
+}
+func (m *MsgSubscribeValidatorResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgSubscribeValidatorResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgSubscribeValidatorResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgSubscribeValidatorResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgSubscribeValidatorResponse.Merge(m, src)
+}
+func (m *MsgSubscribeValidatorResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgSubscribeValidatorResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgSubscribeValidatorResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgSubscribeValidatorResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgRegisterConsumer)(nil), "sainoe.registry.registry.MsgRegisterConsumer")
 	proto.RegisterType((*MsgRegisterConsumerResponse)(nil), "sainoe.registry.registry.MsgRegisterConsumerResponse")
+	proto.RegisterType((*MsgSubscribeValidator)(nil), "sainoe.registry.registry.MsgSubscribeValidator")
+	proto.RegisterType((*MsgSubscribeValidatorResponse)(nil), "sainoe.registry.registry.MsgSubscribeValidatorResponse")
 }
 
 func init() { proto.RegisterFile("registry/tx.proto", fileDescriptor_33996d822bb1b5d4) }
 
 var fileDescriptor_33996d822bb1b5d4 = []byte{
-	// 210 bytes of a gzipped FileDescriptorProto
+	// 263 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2c, 0x4a, 0x4d, 0xcf,
 	0x2c, 0x2e, 0x29, 0xaa, 0xd4, 0x2f, 0xa9, 0xd0, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x92, 0x28,
 	0x4e, 0xcc, 0xcc, 0xcb, 0x4f, 0xd5, 0x83, 0xc9, 0xc0, 0x19, 0x4a, 0x9e, 0x5c, 0xc2, 0xbe, 0xc5,
 	0xe9, 0x41, 0x60, 0x6e, 0x6a, 0x91, 0x73, 0x7e, 0x5e, 0x71, 0x69, 0x6e, 0x6a, 0x91, 0x90, 0x04,
 	0x17, 0x7b, 0x72, 0x51, 0x6a, 0x62, 0x49, 0x7e, 0x91, 0x04, 0xa3, 0x02, 0xa3, 0x06, 0x67, 0x10,
 	0x8c, 0x0b, 0x96, 0xc9, 0x48, 0xcc, 0xcc, 0xf3, 0x74, 0x91, 0x60, 0x82, 0xca, 0x40, 0xb8, 0x4a,
-	0xb2, 0x5c, 0xd2, 0x58, 0x8c, 0x0a, 0x4a, 0x2d, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x35, 0xaa, 0xe7,
-	0x62, 0xf6, 0x2d, 0x4e, 0x17, 0xaa, 0xe0, 0x12, 0xc0, 0xb0, 0x4d, 0x57, 0x0f, 0x97, 0xfb, 0xf4,
-	0xb0, 0x98, 0x28, 0x65, 0x4a, 0x92, 0x72, 0x98, 0x03, 0x9c, 0x5c, 0x4f, 0x3c, 0x92, 0x63, 0xbc,
-	0xf0, 0x48, 0x8e, 0xf1, 0xc1, 0x23, 0x39, 0xc6, 0x09, 0x8f, 0xe5, 0x18, 0x2e, 0x3c, 0x96, 0x63,
-	0xb8, 0xf1, 0x58, 0x8e, 0x21, 0x4a, 0x3b, 0x3d, 0xb3, 0x24, 0xa3, 0x34, 0x49, 0x2f, 0x39, 0x3f,
-	0x57, 0x1f, 0x62, 0xb4, 0x3e, 0x3c, 0x0c, 0x2b, 0x10, 0xcc, 0x92, 0xca, 0x82, 0xd4, 0xe2, 0x24,
-	0x36, 0x70, 0x90, 0x1a, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x56, 0xc4, 0xca, 0xec, 0x67, 0x01,
-	0x00, 0x00,
+	0xb2, 0x5c, 0xd2, 0x58, 0x8c, 0x0a, 0x4a, 0x2d, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x55, 0xf2, 0xe6,
+	0x12, 0xf5, 0x2d, 0x4e, 0x0f, 0x2e, 0x4d, 0x2a, 0x4e, 0x2e, 0xca, 0x4c, 0x4a, 0x0d, 0x4b, 0xcc,
+	0xc9, 0x4c, 0x81, 0x9b, 0x48, 0xaa, 0x5d, 0xf2, 0x5c, 0xb2, 0x58, 0x0d, 0x83, 0xd9, 0x66, 0xf4,
+	0x9f, 0x91, 0x8b, 0xd9, 0xb7, 0x38, 0x5d, 0xa8, 0x82, 0x4b, 0x00, 0xc3, 0x73, 0xba, 0x7a, 0xb8,
+	0x82, 0x43, 0x0f, 0x8b, 0x07, 0xa4, 0x4c, 0x49, 0x52, 0x0e, 0x73, 0x81, 0x50, 0x1d, 0x97, 0x10,
+	0x16, 0xcf, 0xea, 0xe3, 0x35, 0x0c, 0x53, 0x83, 0x94, 0x39, 0x89, 0x1a, 0x60, 0xf6, 0x3b, 0xb9,
+	0x9e, 0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x13, 0x1e, 0xcb,
+	0x31, 0x5c, 0x78, 0x2c, 0xc7, 0x70, 0xe3, 0xb1, 0x1c, 0x43, 0x94, 0x76, 0x7a, 0x66, 0x49, 0x46,
+	0x69, 0x92, 0x5e, 0x72, 0x7e, 0xae, 0x3e, 0xc4, 0x70, 0x7d, 0x78, 0x92, 0xa9, 0x40, 0x30, 0x4b,
+	0x2a, 0x0b, 0x52, 0x8b, 0x93, 0xd8, 0xc0, 0x29, 0xc8, 0x18, 0x10, 0x00, 0x00, 0xff, 0xff, 0xc2,
+	0x45, 0xf9, 0x6f, 0x56, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -153,6 +246,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
 	RegisterConsumer(ctx context.Context, in *MsgRegisterConsumer, opts ...grpc.CallOption) (*MsgRegisterConsumerResponse, error)
+	SubscribeValidator(ctx context.Context, in *MsgSubscribeValidator, opts ...grpc.CallOption) (*MsgSubscribeValidatorResponse, error)
 }
 
 type msgClient struct {
@@ -172,9 +266,19 @@ func (c *msgClient) RegisterConsumer(ctx context.Context, in *MsgRegisterConsume
 	return out, nil
 }
 
+func (c *msgClient) SubscribeValidator(ctx context.Context, in *MsgSubscribeValidator, opts ...grpc.CallOption) (*MsgSubscribeValidatorResponse, error) {
+	out := new(MsgSubscribeValidatorResponse)
+	err := c.cc.Invoke(ctx, "/sainoe.registry.registry.Msg/SubscribeValidator", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	RegisterConsumer(context.Context, *MsgRegisterConsumer) (*MsgRegisterConsumerResponse, error)
+	SubscribeValidator(context.Context, *MsgSubscribeValidator) (*MsgSubscribeValidatorResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -183,6 +287,9 @@ type UnimplementedMsgServer struct {
 
 func (*UnimplementedMsgServer) RegisterConsumer(ctx context.Context, req *MsgRegisterConsumer) (*MsgRegisterConsumerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterConsumer not implemented")
+}
+func (*UnimplementedMsgServer) SubscribeValidator(ctx context.Context, req *MsgSubscribeValidator) (*MsgSubscribeValidatorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubscribeValidator not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -207,6 +314,24 @@ func _Msg_RegisterConsumer_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_SubscribeValidator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSubscribeValidator)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SubscribeValidator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sainoe.registry.registry.Msg/SubscribeValidator",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SubscribeValidator(ctx, req.(*MsgSubscribeValidator))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "sainoe.registry.registry.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -214,6 +339,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterConsumer",
 			Handler:    _Msg_RegisterConsumer_Handler,
+		},
+		{
+			MethodName: "SubscribeValidator",
+			Handler:    _Msg_SubscribeValidator_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -280,6 +409,66 @@ func (m *MsgRegisterConsumerResponse) MarshalToSizedBuffer(dAtA []byte) (int, er
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgSubscribeValidator) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgSubscribeValidator) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgSubscribeValidator) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ChainID) > 0 {
+		i -= len(m.ChainID)
+		copy(dAtA[i:], m.ChainID)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ChainID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgSubscribeValidatorResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgSubscribeValidatorResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgSubscribeValidatorResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -309,6 +498,32 @@ func (m *MsgRegisterConsumer) Size() (n int) {
 }
 
 func (m *MsgRegisterConsumerResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *MsgSubscribeValidator) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.ChainID)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgSubscribeValidatorResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -464,6 +679,170 @@ func (m *MsgRegisterConsumerResponse) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: MsgRegisterConsumerResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgSubscribeValidator) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgSubscribeValidator: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgSubscribeValidator: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ChainID", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ChainID = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgSubscribeValidatorResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgSubscribeValidatorResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgSubscribeValidatorResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

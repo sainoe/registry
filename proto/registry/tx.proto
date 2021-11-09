@@ -8,6 +8,7 @@ option go_package = "github.com/sainoe/registry/x/registry/types";
 // Msg defines the Msg service.
 service Msg {
       rpc RegisterConsumer(MsgRegisterConsumer) returns (MsgRegisterConsumerResponse);
+  rpc SubscribeValidator(MsgSubscribeValidator) returns (MsgSubscribeValidatorResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -17,6 +18,14 @@ message MsgRegisterConsumer {
 }
 
 message MsgRegisterConsumerResponse {
+}
+
+message MsgSubscribeValidator {
+  string creator = 1;
+  string chainID = 2;
+}
+
+message MsgSubscribeValidatorResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

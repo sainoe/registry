@@ -6,6 +6,12 @@ export interface MsgRegisterConsumer {
 }
 export interface MsgRegisterConsumerResponse {
 }
+export interface MsgSubscribeValidator {
+    creator: string;
+    chainID: string;
+}
+export interface MsgSubscribeValidatorResponse {
+}
 export declare const MsgRegisterConsumer: {
     encode(message: MsgRegisterConsumer, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgRegisterConsumer;
@@ -20,15 +26,31 @@ export declare const MsgRegisterConsumerResponse: {
     toJSON(_: MsgRegisterConsumerResponse): unknown;
     fromPartial(_: DeepPartial<MsgRegisterConsumerResponse>): MsgRegisterConsumerResponse;
 };
+export declare const MsgSubscribeValidator: {
+    encode(message: MsgSubscribeValidator, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubscribeValidator;
+    fromJSON(object: any): MsgSubscribeValidator;
+    toJSON(message: MsgSubscribeValidator): unknown;
+    fromPartial(object: DeepPartial<MsgSubscribeValidator>): MsgSubscribeValidator;
+};
+export declare const MsgSubscribeValidatorResponse: {
+    encode(_: MsgSubscribeValidatorResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubscribeValidatorResponse;
+    fromJSON(_: any): MsgSubscribeValidatorResponse;
+    toJSON(_: MsgSubscribeValidatorResponse): unknown;
+    fromPartial(_: DeepPartial<MsgSubscribeValidatorResponse>): MsgSubscribeValidatorResponse;
+};
 /** Msg defines the Msg service. */
 export interface Msg {
-    /** this line is used by starport scaffolding # proto/tx/rpc */
     RegisterConsumer(request: MsgRegisterConsumer): Promise<MsgRegisterConsumerResponse>;
+    /** this line is used by starport scaffolding # proto/tx/rpc */
+    SubscribeValidator(request: MsgSubscribeValidator): Promise<MsgSubscribeValidatorResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
     RegisterConsumer(request: MsgRegisterConsumer): Promise<MsgRegisterConsumerResponse>;
+    SubscribeValidator(request: MsgSubscribeValidator): Promise<MsgSubscribeValidatorResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
