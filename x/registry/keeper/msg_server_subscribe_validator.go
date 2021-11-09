@@ -26,6 +26,11 @@ func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, va
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Consumer chain doesn't exist")
 	}
 
+	// Check if the sender already exists in the validator list
+	if existsInValidators(consumer.Validators, validatorAddress) {
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Validator is already subscribed")
+	}
+
 	// Append the validator address to the consumer entry validator list
 	consumer.Validators = append(consumer.Validators, validatorAddress)
 
@@ -33,4 +38,14 @@ func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, va
 	k.SetConsumer(ctx, consumer)
 
 	return nil
+}
+
+// existsInValidators checks if a target address exists in validator address list
+func existsInValidators(validators []string, target string) bool {
+	for _, valAdrs := range validators {
+		if valAdrs == target {
+			return true
+		}
+	}
+	return false
 }
