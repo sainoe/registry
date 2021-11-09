@@ -3,6 +3,7 @@ import { Registry, OfflineSigner, EncodeObject } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgRegisterConsumer } from "./types/registry/tx";
 import { MsgSubscribeValidator } from "./types/registry/tx";
+import { MsgUnsubscribeValidator } from "./types/registry/tx";
 export declare const MissingWalletError: Error;
 export declare const registry: Registry;
 interface TxClientOptions {
@@ -16,6 +17,7 @@ declare const txClient: (wallet: OfflineSigner, { addr: addr }?: TxClientOptions
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }?: SignAndBroadcastOptions) => any;
     msgRegisterConsumer: (data: MsgRegisterConsumer) => EncodeObject;
     msgSubscribeValidator: (data: MsgSubscribeValidator) => EncodeObject;
+    msgUnsubscribeValidator: (data: MsgUnsubscribeValidator) => EncodeObject;
 }>;
 interface QueryClientOptions {
     addr: string;

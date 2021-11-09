@@ -23,7 +23,7 @@ func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, va
 	// Check if the consumer chain exists in the registry store
 	consumer, isFound := k.GetConsumer(ctx, consumerID)
 	if !isFound {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Consumer chain doesn't exist")
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Consumer chain does not exist")
 	}
 
 	// Check if the sender already exists in the validator list

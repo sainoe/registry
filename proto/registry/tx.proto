@@ -9,6 +9,7 @@ option go_package = "github.com/sainoe/registry/x/registry/types";
 service Msg {
       rpc RegisterConsumer(MsgRegisterConsumer) returns (MsgRegisterConsumerResponse);
   rpc SubscribeValidator(MsgSubscribeValidator) returns (MsgSubscribeValidatorResponse);
+  rpc UnsubscribeValidator(MsgUnsubscribeValidator) returns (MsgUnsubscribeValidatorResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -26,6 +27,14 @@ message MsgSubscribeValidator {
 }
 
 message MsgSubscribeValidatorResponse {
+}
+
+message MsgUnsubscribeValidator {
+  string creator = 1;
+  string chainID = 2;
+}
+
+message MsgUnsubscribeValidatorResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

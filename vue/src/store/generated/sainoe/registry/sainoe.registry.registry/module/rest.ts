@@ -24,6 +24,8 @@ export type RegistryMsgRegisterConsumerResponse = object;
 
 export type RegistryMsgSubscribeValidatorResponse = object;
 
+export type RegistryMsgUnsubscribeValidatorResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

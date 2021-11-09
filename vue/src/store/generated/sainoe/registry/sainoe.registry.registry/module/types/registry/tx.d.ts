@@ -12,6 +12,12 @@ export interface MsgSubscribeValidator {
 }
 export interface MsgSubscribeValidatorResponse {
 }
+export interface MsgUnsubscribeValidator {
+    creator: string;
+    chainID: string;
+}
+export interface MsgUnsubscribeValidatorResponse {
+}
 export declare const MsgRegisterConsumer: {
     encode(message: MsgRegisterConsumer, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgRegisterConsumer;
@@ -40,17 +46,33 @@ export declare const MsgSubscribeValidatorResponse: {
     toJSON(_: MsgSubscribeValidatorResponse): unknown;
     fromPartial(_: DeepPartial<MsgSubscribeValidatorResponse>): MsgSubscribeValidatorResponse;
 };
+export declare const MsgUnsubscribeValidator: {
+    encode(message: MsgUnsubscribeValidator, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUnsubscribeValidator;
+    fromJSON(object: any): MsgUnsubscribeValidator;
+    toJSON(message: MsgUnsubscribeValidator): unknown;
+    fromPartial(object: DeepPartial<MsgUnsubscribeValidator>): MsgUnsubscribeValidator;
+};
+export declare const MsgUnsubscribeValidatorResponse: {
+    encode(_: MsgUnsubscribeValidatorResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgUnsubscribeValidatorResponse;
+    fromJSON(_: any): MsgUnsubscribeValidatorResponse;
+    toJSON(_: MsgUnsubscribeValidatorResponse): unknown;
+    fromPartial(_: DeepPartial<MsgUnsubscribeValidatorResponse>): MsgUnsubscribeValidatorResponse;
+};
 /** Msg defines the Msg service. */
 export interface Msg {
     RegisterConsumer(request: MsgRegisterConsumer): Promise<MsgRegisterConsumerResponse>;
-    /** this line is used by starport scaffolding # proto/tx/rpc */
     SubscribeValidator(request: MsgSubscribeValidator): Promise<MsgSubscribeValidatorResponse>;
+    /** this line is used by starport scaffolding # proto/tx/rpc */
+    UnsubscribeValidator(request: MsgUnsubscribeValidator): Promise<MsgUnsubscribeValidatorResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
     RegisterConsumer(request: MsgRegisterConsumer): Promise<MsgRegisterConsumerResponse>;
     SubscribeValidator(request: MsgSubscribeValidator): Promise<MsgSubscribeValidatorResponse>;
+    UnsubscribeValidator(request: MsgUnsubscribeValidator): Promise<MsgUnsubscribeValidatorResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

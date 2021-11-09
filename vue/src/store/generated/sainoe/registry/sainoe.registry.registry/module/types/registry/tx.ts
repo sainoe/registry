@@ -17,6 +17,13 @@ export interface MsgSubscribeValidator {
 
 export interface MsgSubscribeValidatorResponse {}
 
+export interface MsgUnsubscribeValidator {
+  creator: string
+  chainID: string
+}
+
+export interface MsgUnsubscribeValidatorResponse {}
+
 const baseMsgRegisterConsumer: object = { creator: '', chainID: '' }
 
 export const MsgRegisterConsumer = {
@@ -237,11 +244,122 @@ export const MsgSubscribeValidatorResponse = {
   }
 }
 
+const baseMsgUnsubscribeValidator: object = { creator: '', chainID: '' }
+
+export const MsgUnsubscribeValidator = {
+  encode(message: MsgUnsubscribeValidator, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== '') {
+      writer.uint32(10).string(message.creator)
+    }
+    if (message.chainID !== '') {
+      writer.uint32(18).string(message.chainID)
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUnsubscribeValidator {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgUnsubscribeValidator } as MsgUnsubscribeValidator
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string()
+          break
+        case 2:
+          message.chainID = reader.string()
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): MsgUnsubscribeValidator {
+    const message = { ...baseMsgUnsubscribeValidator } as MsgUnsubscribeValidator
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.chainID !== undefined && object.chainID !== null) {
+      message.chainID = String(object.chainID)
+    } else {
+      message.chainID = ''
+    }
+    return message
+  },
+
+  toJSON(message: MsgUnsubscribeValidator): unknown {
+    const obj: any = {}
+    message.creator !== undefined && (obj.creator = message.creator)
+    message.chainID !== undefined && (obj.chainID = message.chainID)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<MsgUnsubscribeValidator>): MsgUnsubscribeValidator {
+    const message = { ...baseMsgUnsubscribeValidator } as MsgUnsubscribeValidator
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator
+    } else {
+      message.creator = ''
+    }
+    if (object.chainID !== undefined && object.chainID !== null) {
+      message.chainID = object.chainID
+    } else {
+      message.chainID = ''
+    }
+    return message
+  }
+}
+
+const baseMsgUnsubscribeValidatorResponse: object = {}
+
+export const MsgUnsubscribeValidatorResponse = {
+  encode(_: MsgUnsubscribeValidatorResponse, writer: Writer = Writer.create()): Writer {
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgUnsubscribeValidatorResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgUnsubscribeValidatorResponse } as MsgUnsubscribeValidatorResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(_: any): MsgUnsubscribeValidatorResponse {
+    const message = { ...baseMsgUnsubscribeValidatorResponse } as MsgUnsubscribeValidatorResponse
+    return message
+  },
+
+  toJSON(_: MsgUnsubscribeValidatorResponse): unknown {
+    const obj: any = {}
+    return obj
+  },
+
+  fromPartial(_: DeepPartial<MsgUnsubscribeValidatorResponse>): MsgUnsubscribeValidatorResponse {
+    const message = { ...baseMsgUnsubscribeValidatorResponse } as MsgUnsubscribeValidatorResponse
+    return message
+  }
+}
+
 /** Msg defines the Msg service. */
 export interface Msg {
   RegisterConsumer(request: MsgRegisterConsumer): Promise<MsgRegisterConsumerResponse>
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   SubscribeValidator(request: MsgSubscribeValidator): Promise<MsgSubscribeValidatorResponse>
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  UnsubscribeValidator(request: MsgUnsubscribeValidator): Promise<MsgUnsubscribeValidatorResponse>
 }
 
 export class MsgClientImpl implements Msg {
@@ -259,6 +377,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgSubscribeValidator.encode(request).finish()
     const promise = this.rpc.request('sainoe.registry.registry.Msg', 'SubscribeValidator', data)
     return promise.then((data) => MsgSubscribeValidatorResponse.decode(new Reader(data)))
+  }
+
+  UnsubscribeValidator(request: MsgUnsubscribeValidator): Promise<MsgUnsubscribeValidatorResponse> {
+    const data = MsgUnsubscribeValidator.encode(request).finish()
+    const promise = this.rpc.request('sainoe.registry.registry.Msg', 'UnsubscribeValidator', data)
+    return promise.then((data) => MsgUnsubscribeValidatorResponse.decode(new Reader(data)))
   }
 }
 

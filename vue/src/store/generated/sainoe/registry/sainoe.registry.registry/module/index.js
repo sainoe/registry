@@ -4,9 +4,11 @@ import { Registry } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgRegisterConsumer } from "./types/registry/tx";
 import { MsgSubscribeValidator } from "./types/registry/tx";
+import { MsgUnsubscribeValidator } from "./types/registry/tx";
 const types = [
     ["/sainoe.registry.registry.MsgRegisterConsumer", MsgRegisterConsumer],
     ["/sainoe.registry.registry.MsgSubscribeValidator", MsgSubscribeValidator],
+    ["/sainoe.registry.registry.MsgUnsubscribeValidator", MsgUnsubscribeValidator],
 ];
 export const MissingWalletError = new Error("wallet is required");
 export const registry = new Registry(types);
@@ -29,6 +31,7 @@ const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657
         signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
         msgRegisterConsumer: (data) => ({ typeUrl: "/sainoe.registry.registry.MsgRegisterConsumer", value: MsgRegisterConsumer.fromPartial(data) }),
         msgSubscribeValidator: (data) => ({ typeUrl: "/sainoe.registry.registry.MsgSubscribeValidator", value: MsgSubscribeValidator.fromPartial(data) }),
+        msgUnsubscribeValidator: (data) => ({ typeUrl: "/sainoe.registry.registry.MsgUnsubscribeValidator", value: MsgUnsubscribeValidator.fromPartial(data) }),
     };
 };
 const queryClient = async ({ addr: addr } = { addr: "http://localhost:1317" }) => {

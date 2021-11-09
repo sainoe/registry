@@ -6,11 +6,13 @@ import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "
 import { Api } from "./rest";
 import { MsgRegisterConsumer } from "./types/registry/tx";
 import { MsgSubscribeValidator } from "./types/registry/tx";
+import { MsgUnsubscribeValidator } from "./types/registry/tx";
 
 
 const types = [
   ["/sainoe.registry.registry.MsgRegisterConsumer", MsgRegisterConsumer],
   ["/sainoe.registry.registry.MsgSubscribeValidator", MsgSubscribeValidator],
+  ["/sainoe.registry.registry.MsgUnsubscribeValidator", MsgUnsubscribeValidator],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -45,6 +47,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgRegisterConsumer: (data: MsgRegisterConsumer): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgRegisterConsumer", value: MsgRegisterConsumer.fromPartial( data ) }),
     msgSubscribeValidator: (data: MsgSubscribeValidator): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgSubscribeValidator", value: MsgSubscribeValidator.fromPartial( data ) }),
+    msgUnsubscribeValidator: (data: MsgUnsubscribeValidator): EncodeObject => ({ typeUrl: "/sainoe.registry.registry.MsgUnsubscribeValidator", value: MsgUnsubscribeValidator.fromPartial( data ) }),
     
   };
 };
