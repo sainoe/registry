@@ -11,17 +11,26 @@ import (
 func (k msgServer) SubscribeValidator(goCtx context.Context, msg *types.MsgSubscribeValidator) (*types.MsgSubscribeValidatorResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Execute the transaction logic
+	if err := k.addValidatorToConsumer(ctx, msg.ChainID, msg.Creator); err != nil {
+		return nil, err
+	}
+
+	return &types.MsgSubscribeValidatorResponse{}, nil
+}
+
+func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, validatorAddress string) error {
 	// Check if the consumer chain exists in the registry store
-	consumer, isFound := k.GetConsumer(ctx, msg.ChainID)
+	consumer, isFound := k.GetConsumer(ctx, consumerID)
 	if !isFound {
-		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Consumer chain doesn't exist")
+		return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Consumer chain doesn't exist")
 	}
 
 	// Append the validator address to the consumer entry validator list
-	consumer.Validators = append(consumer.Validators, msg.Creator)
+	consumer.Validators = append(consumer.Validators, validatorAddress)
 
 	// Commit the state update to the consumer store
 	k.SetConsumer(ctx, consumer)
 
-	return &types.MsgSubscribeValidatorResponse{}, nil
+	return nil
 }
