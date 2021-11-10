@@ -1,0 +1,10 @@
+syntax = "proto3";
+package sainoe.registry.registry;
+
+option go_package = "github.com/sainoe/registry/x/registry/types";
+
+message Subscription {
+  string index = 1;
+  string consumerID = 2; 
+}
+

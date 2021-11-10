@@ -43,7 +43,20 @@ func (k msgServer) removeValidatorFromConsumer(ctx sdk.Context, consumerID strin
 	// persist the updated validators to the consumer store
 	k.SetConsumer(ctx, consumer)
 
+	// delete subscription
+	k.deleteSubscription(ctx, validatorAddress, consumerID)
+
 	return nil
+}
+
+func (k msgServer) deleteSubscription(ctx sdk.Context, validatorAddress string, consumerID string) {
+	for _, subscription := range k.GetAllSubscription(ctx) {
+		if subscription.Index == validatorAddress && subscription.ConsumerID == consumerID {
+			subscription.ConsumerID = ""
+			k.SetSubscription(ctx, subscription)
+			return
+		}
+	}
 }
 
 // getValidatorPosition tries to find a given validator from a list

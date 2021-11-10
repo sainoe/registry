@@ -3,7 +3,8 @@ import { txClient, queryClient, MissingWalletError, registry } from './module';
 import { SpVuexError } from '@starport/vuex';
 import { Consumer } from "./module/types/registry/consumer";
 import { Params } from "./module/types/registry/params";
-export { Consumer, Params };
+import { Subscription } from "./module/types/registry/subscription";
+export { Consumer, Params, Subscription };
 async function initTxClient(vuexGetters) {
     return await txClient(vuexGetters['common/wallet/signer'], {
         addr: vuexGetters['common/env/apiTendermint']
@@ -40,9 +41,12 @@ const getDefaultState = () => {
         Params: {},
         Consumer: {},
         ConsumerAll: {},
+        Subscription: {},
+        SubscriptionAll: {},
         _Structure: {
             Consumer: getStructure(Consumer.fromPartial({})),
             Params: getStructure(Params.fromPartial({})),
+            Subscription: getStructure(Subscription.fromPartial({})),
         },
         _Registry: registry,
         _Subscriptions: new Set(),
@@ -85,6 +89,18 @@ export default {
                 params.query = null;
             }
             return state.ConsumerAll[JSON.stringify(params)] ?? {};
+        },
+        getSubscription: (state) => (params = { params: {} }) => {
+            if (!params.query) {
+                params.query = null;
+            }
+            return state.Subscription[JSON.stringify(params)] ?? {};
+        },
+        getSubscriptionAll: (state) => (params = { params: {} }) => {
+            if (!params.query) {
+                params.query = null;
+            }
+            return state.SubscriptionAll[JSON.stringify(params)] ?? {};
         },
         getTypeStructure: (state) => (type) => {
             return state._Structure[type].fields;
@@ -165,6 +181,55 @@ export default {
                 throw new SpVuexError('QueryClient:QueryConsumerAll', 'API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
+        async QuerySubscription({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
+            try {
+                const key = params ?? {};
+                const queryClient = await initQueryClient(rootGetters);
+                let value = (await queryClient.querySubscription(key.index)).data;
+                commit('QUERY', { query: 'Subscription', key: { params: { ...key }, query }, value });
+                if (subscribe)
+                    commit('SUBSCRIBE', { action: 'QuerySubscription', payload: { options: { all }, params: { ...key }, query } });
+                return getters['getSubscription']({ params: { ...key }, query }) ?? {};
+            }
+            catch (e) {
+                throw new SpVuexError('QueryClient:QuerySubscription', 'API Node Unavailable. Could not perform query: ' + e.message);
+            }
+        },
+        async QuerySubscriptionAll({ commit, rootGetters, getters }, { options: { subscribe, all } = { subscribe: false, all: false }, params, query = null }) {
+            try {
+                const key = params ?? {};
+                const queryClient = await initQueryClient(rootGetters);
+                let value = (await queryClient.querySubscriptionAll(query)).data;
+                while (all && value.pagination && value.pagination.next_key != null) {
+                    let next_values = (await queryClient.querySubscriptionAll({ ...query, 'pagination.key': value.pagination.next_key })).data;
+                    value = mergeResults(value, next_values);
+                }
+                commit('QUERY', { query: 'SubscriptionAll', key: { params: { ...key }, query }, value });
+                if (subscribe)
+                    commit('SUBSCRIBE', { action: 'QuerySubscriptionAll', payload: { options: { all }, params: { ...key }, query } });
+                return getters['getSubscriptionAll']({ params: { ...key }, query }) ?? {};
+            }
+            catch (e) {
+                throw new SpVuexError('QueryClient:QuerySubscriptionAll', 'API Node Unavailable. Could not perform query: ' + e.message);
+            }
+        },
+        async sendMsgRegisterConsumer({ rootGetters }, { value, fee = [], memo = '' }) {
+            try {
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgRegisterConsumer(value);
+                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
+                        gas: "200000" }, memo });
+                return result;
+            }
+            catch (e) {
+                if (e == MissingWalletError) {
+                    throw new SpVuexError('TxClient:MsgRegisterConsumer:Init', 'Could not initialize signing client. Wallet is required.');
+                }
+                else {
+                    throw new SpVuexError('TxClient:MsgRegisterConsumer:Send', 'Could not broadcast Tx: ' + e.message);
+                }
+            }
+        },
         async sendMsgUnsubscribeValidator({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
@@ -199,20 +264,18 @@ export default {
                 }
             }
         },
-        async sendMsgRegisterConsumer({ rootGetters }, { value, fee = [], memo = '' }) {
+        async MsgRegisterConsumer({ rootGetters }, { value }) {
             try {
                 const txClient = await initTxClient(rootGetters);
                 const msg = await txClient.msgRegisterConsumer(value);
-                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
-                        gas: "200000" }, memo });
-                return result;
+                return msg;
             }
             catch (e) {
                 if (e == MissingWalletError) {
                     throw new SpVuexError('TxClient:MsgRegisterConsumer:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgRegisterConsumer:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgRegisterConsumer:Create', 'Could not create message: ' + e.message);
                 }
             }
         },
@@ -243,21 +306,6 @@ export default {
                 }
                 else {
                     throw new SpVuexError('TxClient:MsgSubscribeValidator:Create', 'Could not create message: ' + e.message);
-                }
-            }
-        },
-        async MsgRegisterConsumer({ rootGetters }, { value }) {
-            try {
-                const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgRegisterConsumer(value);
-                return msg;
-            }
-            catch (e) {
-                if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgRegisterConsumer:Init', 'Could not initialize signing client. Wallet is required.');
-                }
-                else {
-                    throw new SpVuexError('TxClient:MsgRegisterConsumer:Create', 'Could not create message: ' + e.message);
                 }
             }
         },

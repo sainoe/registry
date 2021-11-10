@@ -179,5 +179,34 @@ export class Api extends HttpClient {
             format: "json",
             ...params,
         });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QuerySubscriptionAll
+         * @summary Queries a list of subscription items.
+         * @request GET:/sainoe/registry/registry/subscription
+         */
+        this.querySubscriptionAll = (query, params = {}) => this.request({
+            path: `/sainoe/registry/registry/subscription`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QuerySubscription
+         * @summary Queries a subscription by index.
+         * @request GET:/sainoe/registry/registry/subscription/{index}
+         */
+        this.querySubscription = (index, params = {}) => this.request({
+            path: `/sainoe/registry/registry/subscription/${index}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
     }
 }

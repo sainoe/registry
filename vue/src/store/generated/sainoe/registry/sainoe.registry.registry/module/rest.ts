@@ -46,8 +46,27 @@ export interface RegistryQueryAllConsumerResponse {
   pagination?: V1Beta1PageResponse;
 }
 
+export interface RegistryQueryAllSubscriptionResponse {
+  subscription?: RegistrySubscription[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
 export interface RegistryQueryGetConsumerResponse {
   consumer?: RegistryConsumer;
+}
+
+export interface RegistryQueryGetSubscriptionResponse {
+  subscription?: RegistrySubscription;
 }
 
 /**
@@ -56,6 +75,11 @@ export interface RegistryQueryGetConsumerResponse {
 export interface RegistryQueryParamsResponse {
   /** params holds all the parameters of this module. */
   params?: RegistryParams;
+}
+
+export interface RegistrySubscription {
+  index?: string;
+  consumerID?: string;
 }
 
 export interface RpcStatus {
@@ -373,6 +397,48 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryParams = (params: RequestParams = {}) =>
     this.request<RegistryQueryParamsResponse, RpcStatus>({
       path: `/sainoe/registry/registry/params`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QuerySubscriptionAll
+   * @summary Queries a list of subscription items.
+   * @request GET:/sainoe/registry/registry/subscription
+   */
+  querySubscriptionAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<RegistryQueryAllSubscriptionResponse, RpcStatus>({
+      path: `/sainoe/registry/registry/subscription`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QuerySubscription
+   * @summary Queries a subscription by index.
+   * @request GET:/sainoe/registry/registry/subscription/{index}
+   */
+  querySubscription = (index: string, params: RequestParams = {}) =>
+    this.request<RegistryQueryGetSubscriptionResponse, RpcStatus>({
+      path: `/sainoe/registry/registry/subscription/${index}`,
       method: "GET",
       format: "json",
       ...params,

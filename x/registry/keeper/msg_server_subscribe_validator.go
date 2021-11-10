@@ -34,10 +34,23 @@ func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, va
 	// Append the validator address to the consumer entry validator list
 	consumer.Validators = append(consumer.Validators, validatorAddress)
 
-	// Commit the state update to the consumer store
+	// Commit the updated state to the consumer store
 	k.SetConsumer(ctx, consumer)
 
+	// Create and commit subscription to its store
+	k.createSubscription(ctx, consumerID, validatorAddress)
+
 	return nil
+}
+
+// Create and commit a subscription
+func (k msgServer) createSubscription(ctx sdk.Context, consumerID string, validatorAddress string) {
+	// Create and commit a subscription
+	newSubscription := types.Subscription{
+		Index:      validatorAddress,
+		ConsumerID: consumerID,
+	}
+	k.SetSubscription(ctx, newSubscription)
 }
 
 // existsInValidators checks if a target address exists in validator address list

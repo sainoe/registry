@@ -6,6 +6,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "registry/params.proto";
 import "registry/consumer.proto";
+import "registry/subscription.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/sainoe/registry/x/registry/types";
@@ -24,6 +25,16 @@ service Query {
 	// Queries a list of consumer items.
 	rpc ConsumerAll(QueryAllConsumerRequest) returns (QueryAllConsumerResponse) {
 		option (google.api.http).get = "/sainoe/registry/registry/consumer";
+	}
+
+// Queries a subscription by index.
+	rpc Subscription(QueryGetSubscriptionRequest) returns (QueryGetSubscriptionResponse) {
+		option (google.api.http).get = "/sainoe/registry/registry/subscription/{index}";
+	}
+
+	// Queries a list of subscription items.
+	rpc SubscriptionAll(QueryAllSubscriptionRequest) returns (QueryAllSubscriptionResponse) {
+		option (google.api.http).get = "/sainoe/registry/registry/subscription";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -53,6 +64,24 @@ message QueryAllConsumerRequest {
 
 message QueryAllConsumerResponse {
 	repeated Consumer consumer = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetSubscriptionRequest {
+	  string index = 1;
+
+}
+
+message QueryGetSubscriptionResponse {
+	Subscription subscription = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllSubscriptionRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllSubscriptionResponse {
+	repeated Subscription subscription = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
