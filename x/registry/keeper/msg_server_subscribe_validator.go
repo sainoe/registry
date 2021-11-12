@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -38,7 +39,8 @@ func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, va
 	k.SetConsumer(ctx, consumer)
 
 	// Create and commit subscription to its store
-	k.createSubscription(ctx, consumerID, validatorAddress)
+	//k.createSubscription(ctx, consumerID, validatorAddress)
+	k.SetValidatorConsumerIndex(ctx, validatorAddress, consumerID)
 
 	return nil
 }
@@ -52,6 +54,30 @@ func (k msgServer) createSubscription(ctx sdk.Context, consumerID string, valida
 	}
 	k.SetSubscription(ctx, newSubscription)
 }
+
+// take the valAddress and ConsID
+func (k msgServer) SetValidatorConsumerIndex(ctx sdk.Context, validatorAddress string, consumerID string) {
+	store := ctx.KVStore(k.storeKey)
+	store.Set(types.ValidatorConsumerIndexKey(validatorAddress, consumerID), nil)
+}
+
+func (k msgServer) GetConsumersByValidator(ctx sdk.Context, valAddress string) []string { // consumers array
+	store := ctx.KVStore(k.storeKey)
+	iterator := sdk.KVStorePrefixIterator(store, types.ValidatorConsumerIndexKey(valAddress, ""))
+	defer iterator.Close()
+	// consumersArray := []types.Consumer{}
+	for ; iterator.Valid(); iterator.Next() {
+		key := iterator.Key() // getting:  prefix + validatorID + consumerID // get the consumerID from the key (string manipulation)
+		// consumersArray = append(CA, k.GetConsumer(consumer))
+		fmt.Println(string(key))
+	}
+
+	return nil
+}
+
+//
+//
+// Store.Delete
 
 // existsInValidators checks if a target address exists in validator address list
 func existsInValidators(validators []string, target string) bool {
