@@ -27,6 +27,7 @@ export interface QueryAllConsumerResponse {
 }
 export interface QueryGetSubscriptionRequest {
     index: string;
+    consumerID: string;
 }
 export interface QueryGetSubscriptionResponse {
     subscription: Subscription | undefined;

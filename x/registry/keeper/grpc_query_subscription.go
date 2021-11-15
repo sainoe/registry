@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/sainoe/registry/x/registry/types"
@@ -29,23 +28,10 @@ func (k Keeper) Subscription(c context.Context, req *types.QueryGetSubscriptionR
 
 	// Get the store from context
 	store := ctx.KVStore(k.storeKey)
-	iterator := sdk.KVStorePrefixIterator(store, types.ValidatorConsumerIndexKey(req.Index, ""))
-	defer iterator.Close()
-	// out.Index = out.Index + string(types.ValidatorConsumerIndexKey("", "")) + ":"
-	idx := 0
-	for ; iterator.Valid(); iterator.Next() {
-		out.Index += "{idx:" + strconv.Itoa(idx) + ", key:" + string(iterator.Key()) +
-			", value:" + string(iterator.Value()) + "},"
-		idx++
+	b := store.Get(types.ValidatorConsumerIndexKey(req.Index, req.ConsumerID))
+	if b == nil {
+		return nil, status.Error(codes.InvalidArgument, "not found")
 	}
-
-	// val, found := k.GetSubscription(
-	// 	ctx,
-	// 	req.Index,
-	// )
-	// if !found {
-	// 	return nil, status.Error(codes.InvalidArgument, "not found")
-	// }
 
 	return &types.QueryGetSubscriptionResponse{Subscription: out}, nil
 }

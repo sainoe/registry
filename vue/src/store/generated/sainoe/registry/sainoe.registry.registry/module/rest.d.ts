@@ -232,6 +232,8 @@ export declare class Api<SecurityDataType extends unknown> extends HttpClient<Se
      * @summary Queries a subscription by index.
      * @request GET:/sainoe/registry/registry/subscription/{index}
      */
-    querySubscription: (index: string, params?: RequestParams) => Promise<HttpResponse<RegistryQueryGetSubscriptionResponse, RpcStatus>>;
+    querySubscription: (index: string, query?: {
+        consumerID?: string;
+    }, params?: RequestParams) => Promise<HttpResponse<RegistryQueryGetSubscriptionResponse, RpcStatus>>;
 }
 export {};

@@ -12871,6 +12871,10 @@ paths:
           in: path
           required: true
           type: string
+        - name: consumerID
+          in: query
+          required: false
+          type: string
       tags:
         - Query
 definitions:

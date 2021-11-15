@@ -35,6 +35,7 @@ export interface QueryAllConsumerResponse {
 
 export interface QueryGetSubscriptionRequest {
   index: string
+  consumerID: string
 }
 
 export interface QueryGetSubscriptionResponse {
@@ -395,12 +396,15 @@ export const QueryAllConsumerResponse = {
   }
 }
 
-const baseQueryGetSubscriptionRequest: object = { index: '' }
+const baseQueryGetSubscriptionRequest: object = { index: '', consumerID: '' }
 
 export const QueryGetSubscriptionRequest = {
   encode(message: QueryGetSubscriptionRequest, writer: Writer = Writer.create()): Writer {
     if (message.index !== '') {
       writer.uint32(10).string(message.index)
+    }
+    if (message.consumerID !== '') {
+      writer.uint32(18).string(message.consumerID)
     }
     return writer
   },
@@ -414,6 +418,9 @@ export const QueryGetSubscriptionRequest = {
       switch (tag >>> 3) {
         case 1:
           message.index = reader.string()
+          break
+        case 2:
+          message.consumerID = reader.string()
           break
         default:
           reader.skipType(tag & 7)
@@ -430,12 +437,18 @@ export const QueryGetSubscriptionRequest = {
     } else {
       message.index = ''
     }
+    if (object.consumerID !== undefined && object.consumerID !== null) {
+      message.consumerID = String(object.consumerID)
+    } else {
+      message.consumerID = ''
+    }
     return message
   },
 
   toJSON(message: QueryGetSubscriptionRequest): unknown {
     const obj: any = {}
     message.index !== undefined && (obj.index = message.index)
+    message.consumerID !== undefined && (obj.consumerID = message.consumerID)
     return obj
   },
 
@@ -445,6 +458,11 @@ export const QueryGetSubscriptionRequest = {
       message.index = object.index
     } else {
       message.index = ''
+    }
+    if (object.consumerID !== undefined && object.consumerID !== null) {
+      message.consumerID = object.consumerID
+    } else {
+      message.consumerID = ''
     }
     return message
   }

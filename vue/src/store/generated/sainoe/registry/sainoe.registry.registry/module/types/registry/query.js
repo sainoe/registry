@@ -317,11 +317,14 @@ export const QueryAllConsumerResponse = {
         return message;
     }
 };
-const baseQueryGetSubscriptionRequest = { index: '' };
+const baseQueryGetSubscriptionRequest = { index: '', consumerID: '' };
 export const QueryGetSubscriptionRequest = {
     encode(message, writer = Writer.create()) {
         if (message.index !== '') {
             writer.uint32(10).string(message.index);
+        }
+        if (message.consumerID !== '') {
+            writer.uint32(18).string(message.consumerID);
         }
         return writer;
     },
@@ -334,6 +337,9 @@ export const QueryGetSubscriptionRequest = {
             switch (tag >>> 3) {
                 case 1:
                     message.index = reader.string();
+                    break;
+                case 2:
+                    message.consumerID = reader.string();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -350,11 +356,18 @@ export const QueryGetSubscriptionRequest = {
         else {
             message.index = '';
         }
+        if (object.consumerID !== undefined && object.consumerID !== null) {
+            message.consumerID = String(object.consumerID);
+        }
+        else {
+            message.consumerID = '';
+        }
         return message;
     },
     toJSON(message) {
         const obj = {};
         message.index !== undefined && (obj.index = message.index);
+        message.consumerID !== undefined && (obj.consumerID = message.consumerID);
         return obj;
     },
     fromPartial(object) {
@@ -364,6 +377,12 @@ export const QueryGetSubscriptionRequest = {
         }
         else {
             message.index = '';
+        }
+        if (object.consumerID !== undefined && object.consumerID !== null) {
+            message.consumerID = object.consumerID;
+        }
+        else {
+            message.consumerID = '';
         }
         return message;
     }

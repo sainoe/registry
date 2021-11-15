@@ -440,10 +440,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @summary Queries a subscription by index.
    * @request GET:/sainoe/registry/registry/subscription/{index}
    */
-  querySubscription = (index: string, params: RequestParams = {}) =>
+  querySubscription = (index: string, query?: { consumerID?: string }, params: RequestParams = {}) =>
     this.request<RegistryQueryGetSubscriptionResponse, RpcStatus>({
       path: `/sainoe/registry/registry/subscription/${index}`,
       method: "GET",
+      query: query,
       format: "json",
       ...params,
     });

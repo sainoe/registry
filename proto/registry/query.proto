@@ -73,8 +73,8 @@ message QueryAllConsumerResponse {
 }
 
 message QueryGetSubscriptionRequest {
-	  string index = 1;
-
+	string index = 1;
+	string consumerID = 2;
 }
 
 message QueryGetSubscriptionResponse {

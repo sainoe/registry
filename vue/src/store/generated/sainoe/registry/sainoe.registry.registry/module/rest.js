@@ -202,9 +202,10 @@ export class Api extends HttpClient {
          * @summary Queries a subscription by index.
          * @request GET:/sainoe/registry/registry/subscription/{index}
          */
-        this.querySubscription = (index, params = {}) => this.request({
+        this.querySubscription = (index, query, params = {}) => this.request({
             path: `/sainoe/registry/registry/subscription/${index}`,
             method: "GET",
+            query: query,
             format: "json",
             ...params,
         });
