@@ -213,20 +213,20 @@ export default {
                 throw new SpVuexError('QueryClient:QuerySubscriptionAll', 'API Node Unavailable. Could not perform query: ' + e.message);
             }
         },
-        async sendMsgSubscribeValidator({ rootGetters }, { value, fee = [], memo = '' }) {
+        async sendMsgUnsubscribeValidator({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgSubscribeValidator(value);
+                const msg = await txClient.msgUnsubscribeValidator(value);
                 const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
                         gas: "200000" }, memo });
                 return result;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Send', 'Could not broadcast Tx: ' + e.message);
                 }
             }
         },
@@ -247,35 +247,35 @@ export default {
                 }
             }
         },
-        async sendMsgUnsubscribeValidator({ rootGetters }, { value, fee = [], memo = '' }) {
+        async sendMsgSubscribeValidator({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgUnsubscribeValidator(value);
+                const msg = await txClient.msgSubscribeValidator(value);
                 const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
                         gas: "200000" }, memo });
                 return result;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Send', 'Could not broadcast Tx: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Send', 'Could not broadcast Tx: ' + e.message);
                 }
             }
         },
-        async MsgSubscribeValidator({ rootGetters }, { value }) {
+        async MsgUnsubscribeValidator({ rootGetters }, { value }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgSubscribeValidator(value);
+                const msg = await txClient.msgUnsubscribeValidator(value);
                 return msg;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Create', 'Could not create message: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Create', 'Could not create message: ' + e.message);
                 }
             }
         },
@@ -294,18 +294,18 @@ export default {
                 }
             }
         },
-        async MsgUnsubscribeValidator({ rootGetters }, { value }) {
+        async MsgSubscribeValidator({ rootGetters }, { value }) {
             try {
                 const txClient = await initTxClient(rootGetters);
-                const msg = await txClient.msgUnsubscribeValidator(value);
+                const msg = await txClient.msgSubscribeValidator(value);
                 return msg;
             }
             catch (e) {
                 if (e == MissingWalletError) {
-                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgUnsubscribeValidator:Create', 'Could not create message: ' + e.message);
+                    throw new SpVuexError('TxClient:MsgSubscribeValidator:Create', 'Could not create message: ' + e.message);
                 }
             }
         },

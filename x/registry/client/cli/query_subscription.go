@@ -74,7 +74,7 @@ func CmdShowSubscription() *cobra.Command {
 
 func CmdSubscriptionByValidator() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "validator-subscription [index]",
+		Use:   "validator-subscription [index]", // rename this
 		Short: "shows a subscription",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
