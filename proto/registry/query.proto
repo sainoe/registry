@@ -87,7 +87,8 @@ message QueryGetSubscriptionByValidatorRequest {
 }
 
 message QueryGetSubscriptionByValidatorResponse {
-  repeated Subscription subscription = 1 [(gogoproto.nullable) = false];
+	string validator = 1;
+    repeated Consumer consumers = 2;
 }
 
 message QueryAllSubscriptionRequest {

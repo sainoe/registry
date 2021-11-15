@@ -36,7 +36,8 @@ export interface QueryGetSubscriptionByValidatorRequest {
     index: string;
 }
 export interface QueryGetSubscriptionByValidatorResponse {
-    subscription: Subscription[];
+    validator: string;
+    consumers: Consumer[];
 }
 export interface QueryAllSubscriptionRequest {
     pagination: PageRequest | undefined;

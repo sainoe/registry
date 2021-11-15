@@ -489,11 +489,14 @@ export const QueryGetSubscriptionByValidatorRequest = {
         return message;
     }
 };
-const baseQueryGetSubscriptionByValidatorResponse = {};
+const baseQueryGetSubscriptionByValidatorResponse = { validator: '' };
 export const QueryGetSubscriptionByValidatorResponse = {
     encode(message, writer = Writer.create()) {
-        for (const v of message.subscription) {
-            Subscription.encode(v, writer.uint32(10).fork()).ldelim();
+        if (message.validator !== '') {
+            writer.uint32(10).string(message.validator);
+        }
+        for (const v of message.consumers) {
+            Consumer.encode(v, writer.uint32(18).fork()).ldelim();
         }
         return writer;
     },
@@ -501,12 +504,15 @@ export const QueryGetSubscriptionByValidatorResponse = {
         const reader = input instanceof Uint8Array ? new Reader(input) : input;
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = { ...baseQueryGetSubscriptionByValidatorResponse };
-        message.subscription = [];
+        message.consumers = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.subscription.push(Subscription.decode(reader, reader.uint32()));
+                    message.validator = reader.string();
+                    break;
+                case 2:
+                    message.consumers.push(Consumer.decode(reader, reader.uint32()));
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -517,30 +523,43 @@ export const QueryGetSubscriptionByValidatorResponse = {
     },
     fromJSON(object) {
         const message = { ...baseQueryGetSubscriptionByValidatorResponse };
-        message.subscription = [];
-        if (object.subscription !== undefined && object.subscription !== null) {
-            for (const e of object.subscription) {
-                message.subscription.push(Subscription.fromJSON(e));
+        message.consumers = [];
+        if (object.validator !== undefined && object.validator !== null) {
+            message.validator = String(object.validator);
+        }
+        else {
+            message.validator = '';
+        }
+        if (object.consumers !== undefined && object.consumers !== null) {
+            for (const e of object.consumers) {
+                message.consumers.push(Consumer.fromJSON(e));
             }
         }
         return message;
     },
     toJSON(message) {
         const obj = {};
-        if (message.subscription) {
-            obj.subscription = message.subscription.map((e) => (e ? Subscription.toJSON(e) : undefined));
+        message.validator !== undefined && (obj.validator = message.validator);
+        if (message.consumers) {
+            obj.consumers = message.consumers.map((e) => (e ? Consumer.toJSON(e) : undefined));
         }
         else {
-            obj.subscription = [];
+            obj.consumers = [];
         }
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseQueryGetSubscriptionByValidatorResponse };
-        message.subscription = [];
-        if (object.subscription !== undefined && object.subscription !== null) {
-            for (const e of object.subscription) {
-                message.subscription.push(Subscription.fromPartial(e));
+        message.consumers = [];
+        if (object.validator !== undefined && object.validator !== null) {
+            message.validator = object.validator;
+        }
+        else {
+            message.validator = '';
+        }
+        if (object.consumers !== undefined && object.consumers !== null) {
+            for (const e of object.consumers) {
+                message.consumers.push(Consumer.fromPartial(e));
             }
         }
         return message;

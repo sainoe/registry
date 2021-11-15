@@ -44,7 +44,14 @@ func (k Keeper) SubscriptionByValidator(c context.Context, req *types.QueryGetSu
 
 	subscriptions := k.GetSubscriptionsByValidator(ctx, req.Index)
 
+	consumers := []*types.Consumer{}
+	for _, sub := range subscriptions {
+		consumer, _ := k.GetConsumer(ctx, sub.ConsumerID)
+		consumers = append(consumers, &consumer)
+	}
+
 	return &types.QueryGetSubscriptionByValidatorResponse{
-		Subscription: subscriptions,
+		Validator: req.Index,
+		Consumers: consumers,
 	}, nil
 }

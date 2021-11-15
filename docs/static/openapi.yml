@@ -20312,15 +20312,23 @@ definitions:
   sainoe.registry.registry.QueryGetSubscriptionByValidatorResponse:
     type: object
     properties:
-      subscription:
+      validator:
+        type: string
+      consumers:
         type: array
         items:
           type: object
           properties:
             index:
               type: string
-            consumerID:
+            chainID:
               type: string
+            creator:
+              type: string
+            validators:
+              type: array
+              items:
+                type: string
   sainoe.registry.registry.QueryGetSubscriptionResponse:
     type: object
     properties:

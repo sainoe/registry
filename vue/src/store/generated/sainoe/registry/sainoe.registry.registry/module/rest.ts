@@ -66,7 +66,8 @@ export interface RegistryQueryGetConsumerResponse {
 }
 
 export interface RegistryQueryGetSubscriptionByValidatorResponse {
-  subscription?: RegistrySubscription[];
+  validator?: string;
+  consumers?: RegistryConsumer[];
 }
 
 export interface RegistryQueryGetSubscriptionResponse {

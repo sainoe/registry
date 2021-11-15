@@ -13,6 +13,9 @@ subscribe2-alice:
 subscribe-bob:
 	registryd tx registry subscribe-validator cosmos:consumer1 --from bob -y -y --log_level panic --trace
 
+subscribe2-bob:
+	registryd tx registry subscribe-validator cosmos:consumer2 --from bob -y -y --log_level panic --trace
+
 unsubscribe-alice:
 	registryd tx registry unsubscribe-validator cosmos:consumer1 --from alice -y --log_level panic --trace
 
