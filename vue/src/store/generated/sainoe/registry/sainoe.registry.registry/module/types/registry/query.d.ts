@@ -31,6 +31,12 @@ export interface QueryGetSubscriptionRequest {
 export interface QueryGetSubscriptionResponse {
     subscription: Subscription | undefined;
 }
+export interface QueryGetSubscriptionByValidatorRequest {
+    index: string;
+}
+export interface QueryGetSubscriptionByValidatorResponse {
+    subscription: Subscription[];
+}
 export interface QueryAllSubscriptionRequest {
     pagination: PageRequest | undefined;
 }
@@ -94,6 +100,20 @@ export declare const QueryGetSubscriptionResponse: {
     toJSON(message: QueryGetSubscriptionResponse): unknown;
     fromPartial(object: DeepPartial<QueryGetSubscriptionResponse>): QueryGetSubscriptionResponse;
 };
+export declare const QueryGetSubscriptionByValidatorRequest: {
+    encode(message: QueryGetSubscriptionByValidatorRequest, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetSubscriptionByValidatorRequest;
+    fromJSON(object: any): QueryGetSubscriptionByValidatorRequest;
+    toJSON(message: QueryGetSubscriptionByValidatorRequest): unknown;
+    fromPartial(object: DeepPartial<QueryGetSubscriptionByValidatorRequest>): QueryGetSubscriptionByValidatorRequest;
+};
+export declare const QueryGetSubscriptionByValidatorResponse: {
+    encode(message: QueryGetSubscriptionByValidatorResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): QueryGetSubscriptionByValidatorResponse;
+    fromJSON(object: any): QueryGetSubscriptionByValidatorResponse;
+    toJSON(message: QueryGetSubscriptionByValidatorResponse): unknown;
+    fromPartial(object: DeepPartial<QueryGetSubscriptionByValidatorResponse>): QueryGetSubscriptionByValidatorResponse;
+};
 export declare const QueryAllSubscriptionRequest: {
     encode(message: QueryAllSubscriptionRequest, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): QueryAllSubscriptionRequest;
@@ -118,6 +138,8 @@ export interface Query {
     ConsumerAll(request: QueryAllConsumerRequest): Promise<QueryAllConsumerResponse>;
     /** Queries a subscription by index. */
     Subscription(request: QueryGetSubscriptionRequest): Promise<QueryGetSubscriptionResponse>;
+    /** Queries a subscription by index. */
+    SubscriptionByValidator(request: QueryGetSubscriptionByValidatorRequest): Promise<QueryGetSubscriptionByValidatorResponse>;
     /** Queries a list of subscription items. */
     SubscriptionAll(request: QueryAllSubscriptionRequest): Promise<QueryAllSubscriptionResponse>;
 }
@@ -128,6 +150,7 @@ export declare class QueryClientImpl implements Query {
     Consumer(request: QueryGetConsumerRequest): Promise<QueryGetConsumerResponse>;
     ConsumerAll(request: QueryAllConsumerRequest): Promise<QueryAllConsumerResponse>;
     Subscription(request: QueryGetSubscriptionRequest): Promise<QueryGetSubscriptionResponse>;
+    SubscriptionByValidator(request: QueryGetSubscriptionByValidatorRequest): Promise<QueryGetSubscriptionByValidatorResponse>;
     SubscriptionAll(request: QueryAllSubscriptionRequest): Promise<QueryAllSubscriptionResponse>;
 }
 interface Rpc {

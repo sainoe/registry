@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -39,9 +38,8 @@ func (k msgServer) addValidatorToConsumer(ctx sdk.Context, consumerID string, va
 	k.SetConsumer(ctx, consumer)
 
 	// Create and commit subscription to its store
-	//k.createSubscription(ctx, consumerID, validatorAddress)
+	// k.createSubscription(ctx, consumerID, validatorAddress)
 	k.SetValidatorConsumerIndex(ctx, validatorAddress, consumerID)
-
 	return nil
 }
 
@@ -58,25 +56,29 @@ func (k msgServer) createSubscription(ctx sdk.Context, consumerID string, valida
 // take the valAddress and ConsID
 func (k msgServer) SetValidatorConsumerIndex(ctx sdk.Context, validatorAddress string, consumerID string) {
 	store := ctx.KVStore(k.storeKey)
-	store.Set(types.ValidatorConsumerIndexKey(validatorAddress, consumerID), nil)
+	indexKey := types.ValidatorConsumerIndexKey(validatorAddress, consumerID)
+	store.Set(indexKey, []byte{})
 }
 
-func (k msgServer) GetConsumersByValidator(ctx sdk.Context, valAddress string) []string { // consumers array
+func (k msgServer) GetConsumersByValidator(ctx sdk.Context, valAddress string) string { //[]string { // consumers array
 	store := ctx.KVStore(k.storeKey)
 	iterator := sdk.KVStorePrefixIterator(store, types.ValidatorConsumerIndexKey(valAddress, ""))
 	defer iterator.Close()
 	// consumersArray := []types.Consumer{}
-	for ; iterator.Valid(); iterator.Next() {
-		key := iterator.Key() // getting:  prefix + validatorID + consumerID // get the consumerID from the key (string manipulation)
-		// consumersArray = append(CA, k.GetConsumer(consumer))
-		fmt.Println(string(key))
+	// for ; iterator.Valid(); iterator.Next() {
+	// 	key := iterator.Key() // getting:  prefix + validatorID + consumerID // get the consumerID from the key (string manipulation)
+	// 	// consumersArray = append(CA, k.GetConsumer(consumer))
+	// 	logger := k.Logger(ctx)
+	// 	logger.Error(string(key))
+	// }
+	if iterator == nil {
+		return "true"
+	} else {
+		return string(iterator.Error().Error())
 	}
-
-	return nil
+	// return sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, k.GetConsumersByValidator(ctx, validatorAddress))
 }
 
-//
-//
 // Store.Delete
 
 // existsInValidators checks if a target address exists in validator address list

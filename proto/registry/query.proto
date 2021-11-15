@@ -32,6 +32,11 @@ service Query {
 		option (google.api.http).get = "/sainoe/registry/registry/subscription/{index}";
 	}
 
+	// Queries a subscription by index.
+	rpc SubscriptionByValidator(QueryGetSubscriptionByValidatorRequest) returns (QueryGetSubscriptionByValidatorResponse) {
+		// option (google.api.http).get = "/sainoe/registry/registry/subscription/{index}";
+	}
+
 	// Queries a list of subscription items.
 	rpc SubscriptionAll(QueryAllSubscriptionRequest) returns (QueryAllSubscriptionResponse) {
 		option (google.api.http).get = "/sainoe/registry/registry/subscription";
@@ -74,6 +79,15 @@ message QueryGetSubscriptionRequest {
 
 message QueryGetSubscriptionResponse {
 	Subscription subscription = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetSubscriptionByValidatorRequest {
+	string index = 1;
+
+}
+
+message QueryGetSubscriptionByValidatorResponse {
+  repeated Subscription subscription = 1 [(gogoproto.nullable) = false];
 }
 
 message QueryAllSubscriptionRequest {

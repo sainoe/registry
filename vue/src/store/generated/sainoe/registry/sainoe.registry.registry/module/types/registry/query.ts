@@ -41,6 +41,14 @@ export interface QueryGetSubscriptionResponse {
   subscription: Subscription | undefined
 }
 
+export interface QueryGetSubscriptionByValidatorRequest {
+  index: string
+}
+
+export interface QueryGetSubscriptionByValidatorResponse {
+  subscription: Subscription[]
+}
+
 export interface QueryAllSubscriptionRequest {
   pagination: PageRequest | undefined
 }
@@ -497,6 +505,123 @@ export const QueryGetSubscriptionResponse = {
   }
 }
 
+const baseQueryGetSubscriptionByValidatorRequest: object = { index: '' }
+
+export const QueryGetSubscriptionByValidatorRequest = {
+  encode(message: QueryGetSubscriptionByValidatorRequest, writer: Writer = Writer.create()): Writer {
+    if (message.index !== '') {
+      writer.uint32(10).string(message.index)
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetSubscriptionByValidatorRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseQueryGetSubscriptionByValidatorRequest } as QueryGetSubscriptionByValidatorRequest
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string()
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryGetSubscriptionByValidatorRequest {
+    const message = { ...baseQueryGetSubscriptionByValidatorRequest } as QueryGetSubscriptionByValidatorRequest
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index)
+    } else {
+      message.index = ''
+    }
+    return message
+  },
+
+  toJSON(message: QueryGetSubscriptionByValidatorRequest): unknown {
+    const obj: any = {}
+    message.index !== undefined && (obj.index = message.index)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<QueryGetSubscriptionByValidatorRequest>): QueryGetSubscriptionByValidatorRequest {
+    const message = { ...baseQueryGetSubscriptionByValidatorRequest } as QueryGetSubscriptionByValidatorRequest
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index
+    } else {
+      message.index = ''
+    }
+    return message
+  }
+}
+
+const baseQueryGetSubscriptionByValidatorResponse: object = {}
+
+export const QueryGetSubscriptionByValidatorResponse = {
+  encode(message: QueryGetSubscriptionByValidatorResponse, writer: Writer = Writer.create()): Writer {
+    for (const v of message.subscription) {
+      Subscription.encode(v!, writer.uint32(10).fork()).ldelim()
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetSubscriptionByValidatorResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseQueryGetSubscriptionByValidatorResponse } as QueryGetSubscriptionByValidatorResponse
+    message.subscription = []
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.subscription.push(Subscription.decode(reader, reader.uint32()))
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): QueryGetSubscriptionByValidatorResponse {
+    const message = { ...baseQueryGetSubscriptionByValidatorResponse } as QueryGetSubscriptionByValidatorResponse
+    message.subscription = []
+    if (object.subscription !== undefined && object.subscription !== null) {
+      for (const e of object.subscription) {
+        message.subscription.push(Subscription.fromJSON(e))
+      }
+    }
+    return message
+  },
+
+  toJSON(message: QueryGetSubscriptionByValidatorResponse): unknown {
+    const obj: any = {}
+    if (message.subscription) {
+      obj.subscription = message.subscription.map((e) => (e ? Subscription.toJSON(e) : undefined))
+    } else {
+      obj.subscription = []
+    }
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<QueryGetSubscriptionByValidatorResponse>): QueryGetSubscriptionByValidatorResponse {
+    const message = { ...baseQueryGetSubscriptionByValidatorResponse } as QueryGetSubscriptionByValidatorResponse
+    message.subscription = []
+    if (object.subscription !== undefined && object.subscription !== null) {
+      for (const e of object.subscription) {
+        message.subscription.push(Subscription.fromPartial(e))
+      }
+    }
+    return message
+  }
+}
+
 const baseQueryAllSubscriptionRequest: object = {}
 
 export const QueryAllSubscriptionRequest = {
@@ -641,6 +766,8 @@ export interface Query {
   ConsumerAll(request: QueryAllConsumerRequest): Promise<QueryAllConsumerResponse>
   /** Queries a subscription by index. */
   Subscription(request: QueryGetSubscriptionRequest): Promise<QueryGetSubscriptionResponse>
+  /** Queries a subscription by index. */
+  SubscriptionByValidator(request: QueryGetSubscriptionByValidatorRequest): Promise<QueryGetSubscriptionByValidatorResponse>
   /** Queries a list of subscription items. */
   SubscriptionAll(request: QueryAllSubscriptionRequest): Promise<QueryAllSubscriptionResponse>
 }
@@ -672,6 +799,12 @@ export class QueryClientImpl implements Query {
     const data = QueryGetSubscriptionRequest.encode(request).finish()
     const promise = this.rpc.request('sainoe.registry.registry.Query', 'Subscription', data)
     return promise.then((data) => QueryGetSubscriptionResponse.decode(new Reader(data)))
+  }
+
+  SubscriptionByValidator(request: QueryGetSubscriptionByValidatorRequest): Promise<QueryGetSubscriptionByValidatorResponse> {
+    const data = QueryGetSubscriptionByValidatorRequest.encode(request).finish()
+    const promise = this.rpc.request('sainoe.registry.registry.Query', 'SubscriptionByValidator', data)
+    return promise.then((data) => QueryGetSubscriptionByValidatorResponse.decode(new Reader(data)))
   }
 
   SubscriptionAll(request: QueryAllSubscriptionRequest): Promise<QueryAllSubscriptionResponse> {

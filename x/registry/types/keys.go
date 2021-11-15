@@ -24,13 +24,13 @@ func KeyPrefix(p string) []byte {
 }
 
 func ValidatorConsumerIndexKey(valAddr string, consID string) []byte {
-	var key []byte
+	// var key []byte
 
 	indexBytes := []byte(ValidatorToConsumerKey + valAddr + consID)
-	key = append(key, indexBytes...)
-	key = append(key, []byte("/")...)
+	// key = append(key, indexBytes...)
+	// key = append(key, []byte("/")...)
 
-	return key
+	return indexBytes
 }
 
 // Set ValidatorConsumerIndexKey()

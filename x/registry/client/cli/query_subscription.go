@@ -71,3 +71,33 @@ func CmdShowSubscription() *cobra.Command {
 
 	return cmd
 }
+
+func CmdSubscriptionByValidator() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "validator-subscription [index]",
+		Short: "shows a subscription",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) (err error) {
+			clientCtx := client.GetClientContextFromCmd(cmd)
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			argIndex := args[0]
+
+			params := &types.QueryGetSubscriptionByValidatorRequest{
+				Index: argIndex,
+			}
+
+			res, err := queryClient.SubscriptionByValidator(context.Background(), params)
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}

@@ -1,7 +1,9 @@
 import { Writer, Reader } from 'protobufjs/minimal';
 export declare const protobufPackage = "sainoe.registry.registry";
 export interface Subscription {
+    /** Validator Address */
     index: string;
+    /** ChainID */
     consumerID: string;
 }
 export declare const Subscription: {

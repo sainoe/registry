@@ -419,6 +419,114 @@ export const QueryGetSubscriptionResponse = {
         return message;
     }
 };
+const baseQueryGetSubscriptionByValidatorRequest = { index: '' };
+export const QueryGetSubscriptionByValidatorRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.index !== '') {
+            writer.uint32(10).string(message.index);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetSubscriptionByValidatorRequest };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.index = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetSubscriptionByValidatorRequest };
+        if (object.index !== undefined && object.index !== null) {
+            message.index = String(object.index);
+        }
+        else {
+            message.index = '';
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.index !== undefined && (obj.index = message.index);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetSubscriptionByValidatorRequest };
+        if (object.index !== undefined && object.index !== null) {
+            message.index = object.index;
+        }
+        else {
+            message.index = '';
+        }
+        return message;
+    }
+};
+const baseQueryGetSubscriptionByValidatorResponse = {};
+export const QueryGetSubscriptionByValidatorResponse = {
+    encode(message, writer = Writer.create()) {
+        for (const v of message.subscription) {
+            Subscription.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetSubscriptionByValidatorResponse };
+        message.subscription = [];
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.subscription.push(Subscription.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetSubscriptionByValidatorResponse };
+        message.subscription = [];
+        if (object.subscription !== undefined && object.subscription !== null) {
+            for (const e of object.subscription) {
+                message.subscription.push(Subscription.fromJSON(e));
+            }
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.subscription) {
+            obj.subscription = message.subscription.map((e) => (e ? Subscription.toJSON(e) : undefined));
+        }
+        else {
+            obj.subscription = [];
+        }
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetSubscriptionByValidatorResponse };
+        message.subscription = [];
+        if (object.subscription !== undefined && object.subscription !== null) {
+            for (const e of object.subscription) {
+                message.subscription.push(Subscription.fromPartial(e));
+            }
+        }
+        return message;
+    }
+};
 const baseQueryAllSubscriptionRequest = {};
 export const QueryAllSubscriptionRequest = {
     encode(message, writer = Writer.create()) {
@@ -569,6 +677,11 @@ export class QueryClientImpl {
         const data = QueryGetSubscriptionRequest.encode(request).finish();
         const promise = this.rpc.request('sainoe.registry.registry.Query', 'Subscription', data);
         return promise.then((data) => QueryGetSubscriptionResponse.decode(new Reader(data)));
+    }
+    SubscriptionByValidator(request) {
+        const data = QueryGetSubscriptionByValidatorRequest.encode(request).finish();
+        const promise = this.rpc.request('sainoe.registry.registry.Query', 'SubscriptionByValidator', data);
+        return promise.then((data) => QueryGetSubscriptionByValidatorResponse.decode(new Reader(data)));
     }
     SubscriptionAll(request) {
         const data = QueryAllSubscriptionRequest.encode(request).finish();
